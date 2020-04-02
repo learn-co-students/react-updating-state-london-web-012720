@@ -1,0 +1,56 @@
+While a React component can have initial state, the real power is in updating its state 
+
+State is only reserved for data that changes in our component and is visible in the UI.
+
+Instead of directly modifying the state using this.state, we use this.setState(). 
+
+This is a function available to all React components that use state, 
+    it allows us to let React know that the component state has changed. 
+    This way the component knows it should re-render, 
+    
+Using a setter function like this is very performant. 
+
+other frameworks like Angular.js use "dirty checking" (continuously checking for changes in an object) to see if a property has changed, 
+
+React already knows because we use a built-in function to let it know what changes we'd like to make!
+
+One thing to keep in mind is that setting state is not synchronous. 
+
+For all intents and purposes, it might seem that way, since our components update right away. 
+
+State updates, however, are batched internally and then executed simultaneously whenever React feels it's appropriate. 
+
+Going back to our ClickityClick component above, let's log the state after we've set it using this.setState():
+
+
+It's important to note the difference between changes in state and changes in props.
+
+Changes in state and/or props will both trigger a re-render of our React component. 
+
+However, changes in state can only happen internally due to components changing their own state. 
+
+Thus, a component can trigger changes in its own state.
+
+A component cannot change its props. Changes in props can only happen externally
+    the parent or grandparent component changes the values it passing down to its children.
+
+
+
+Very often when we're changing state, the change we're making is relative to the previous state. 
+
+Imagine, for instance, we wanted to use state to keep track of the number of times a button is pressed. 
+
+The component's state might start at 0. When the button is pressed, state should change to 1. 
+    if pressed again, how exactly do we change state to 2?
+
+
+
+The easiest solution would be to write code that sets state to its current value plus one.
+
+However, when we write this in code and implement setState, it is important to note that we should not use this.state inside of setState.
+
+As mentioned before, setState is not synchronous — 
+
+If we use this.state inside a setState, it is possible that the values in state are changed by a different setState just prior to our setState.
+
+One way to deal with this is to handle the logic that involves this.state outside of setState. Below is an example of a component that uses this approach to keep track of button presses:
